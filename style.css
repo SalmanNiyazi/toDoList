@@ -1,44 +1,74 @@
 body {
-    font-family: sans-serif;
-    margin: 0 50px;
-    background-color: #dedddf;
-    overflow:  scroll;
-    display: flex;
-    justify-content: center;
-    align-items: center;    
-    
-  }
-  .app {
-    background-color: #fff;
-    width: 300px;
-    margin: 50px 0px;
-    min-height: 500px;
-    border: 5px solid #ac8bc7;
-    border-radius: 8px;
-    padding: 15px;
-  }
-  #msg{
-    color: green;
-  }
-  #addNew {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(194, 136, 241, 0.35);
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .fa-plus {
-    background-color: #a463d0;
-    padding: 3px;
-    border-radius: 3px;
-  }
-  .task-container{
-    width: 100%;
+  font-family: sans-serif;
+  margin: 0 50px;
+  background-color: #dedddf;
+  overflow:  scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  
+}
+.app {
+  background-color: #fff;
+  width: 300px;
+  margin: 50px 0px;
+  min-height: 500px;
+  border: 5px solid #ac8bc7;
+  border-radius: 8px;
+  padding: 15px;
+}
+#msg{
+  color: green;
+}
+#addNew {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(194, 136, 241, 0.35);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.fa-plus {
+  background-color: #a463d0;
+  padding: 3px;
+  border-radius: 3px;
+}
+.task-container{
+  width: 100%;
 
-    
-  }
-  .task-container p {
-    width: 100%;
-  }
+  
+}
+.task-container p {
+  width: 100%;
+}
+
+.form-control-head::after{
+  content: "*";
+  color: red;
+}
+
+#tasks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+#tasks div {
+  border: 3px solid #a17bd3;
+  background-color: #e2eede;
+  border-radius: 8px;
+  padding: 7px;
+  display: grid;
+  gap: 4px;
+}
+
+#tasks div .options {
+  justify-self: center;
+  display: flex;
+  gap: 20px;
+}
+
+#tasks div .options i {
+  cursor: pointer;
+}

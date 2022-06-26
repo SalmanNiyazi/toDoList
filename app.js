@@ -1,35 +1,59 @@
-const form = document.getElementById("form")
+'use strict'
+
+
+const form =      document.getElementById("form")
 const textInput = document.getElementById("textInput")
 const dateInput = document.getElementById("dateInput")
-const textArea = document.getElementById("textarea")
-const message = document.getElementById("msg")
-const tasks = document.getElementById("tasks")
-const addTask = document.getElementById("add")
-const moreBtn = document.getElementsByClassName("moreBtn")[0]
+const textArea =  document.getElementById("textarea")
+const message =   document.getElementById("msg")
+const tasks =     document.getElementById("tasks")
+const addTask =   document.getElementById("add")
 
 
-let taskList = [];
+
+let taskList = JSON.parse(localStorage.getItem("taskList"))||[];
 
 form.addEventListener("submit", function(e){
-   
+    
+    e.preventDefault(); 
     formValidation();
-    e.preventDefault();
-})
 
+});
+
+
+//Form validation
 let formValidation = () => {
-    if(textInput.value === ""){
-        message.innerHTML = "Input Field Required"
-        console.log("error: blank field submission")
+    
+    let today = new Date();
+    let enteredDate = new Date(dateInput.value)
+    
+    let difference = today - enteredDate;
+
+    if((textInput.value === "" || dateInput.value === "" || textArea.value === "") || difference > 0){
+        message.innerHTML = "Input Field Required";
+        alert("Please fill valid inputs")
+    // Do it for all three inputs
+        console.error("error: blank field submission")
     }
     else{
+        
         message.innerHTML = "";
         console.log("successful submission")
         addFormData();
+        
+        add.setAttribute("data-bs-dismiss", "modal");
+        add.click();
     }
-    add.setAttribute("data-bs-dismiss", "modal");
-    add.click();
+    
+
+    (() => {
+        add.setAttribute("data-bs-dismiss", "");
+      })();
+
     clearForm();
 }
+
+//Add new data to local Storage
 
 let addFormData = () => {
     taskList.push({
@@ -38,67 +62,110 @@ let addFormData = () => {
         description: textArea.value,
     })
     localStorage.setItem("taskList", JSON.stringify(taskList));
-    console.log("data added", taskList);
     createNewTask();
 }
 
-let createNewTask = () => {
+//Create a new task
+
+function createNewTask () {
+
     tasks.innerHTML = "";
-    taskList.map((x, y) => {
-        const description = x.description.length > 30 ?`${x.description.slice(0,10)}...<span class="moreBtn">more</span>`:x.description;
-      return (tasks.innerHTML += `
-      <div class="task-container" id=${y}>
-            <span class="fw-bold">${x.title}</span>
-            <span class="small text-secondary">${x.date}</span>
-            <p>${description}</p>
-    
-            <span class="options">
-              <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
-              <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
-            </span>
-          </div>
-      `);
+
+    taskList.length > 0 && taskList.map((x, y) => {
+       
+    const description = x.description.length > 40 ?`${x.description.slice(0,40)}...<button id="moreText" onclick="moreText()">more</button>`: x.description;
+   
+    return  tasks.innerHTML +=   `
+    <div class="task-container" id=${y}>
+    <span class="fw-bold">${x.title}</span>
+    <span class="small text-secondary">${x.date}</span>
+    <p>${description}</p>
+   
+    <span class="options">
+      <i onClick= "editTask(this)"  id=${y} data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
+      <i onClick ="deleteTask(${y}); createNewTask()" id=${y} class="fas fa-trash-alt"></i>
+    </span>
+  </div>
+`
+
     });
-    // toggleTextArea();
     clearForm();
-}
 
-moreBtn.addEventListener("onClick", function(){
-
-    toggleText();
-    })
-
-let toggleText = () => {
-    if(moreBtn.innerHTML === "more"){
-        moreBtn.innerHTML = "less";
-    }
-    else{
-        moreBtn.innerHTML = "more";
-    }
 };
 
-let deleteTask = (e) => {
-    if(confirm("Do you want to delete this task")){
-        e.parentElement.parentElement.remove();
-        data.splice(e.parentElement.parentElement.id, 1);
+
+createNewTask()
+
+function moreText(e){
+    console.log(taskList.innerHTML);
+    return tasks.innerHTML += `<p>${textArea.value}</p>`
+  
+}
+
+//Delete a task
+let deleteTask = (y) => {
+   new swal({
+        title: 'Are you sure?',
+        text: "Do you want to delete this task!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            taskList.splice(taskList[y], 1);
+            localStorage.setItem("taskList", JSON.stringify(taskList));
+            createNewTask(taskList)
+            new swal(
+             'Deleted!',
+            'Your file has been deleted.',
+            'success'
+            )
+        } else return;
+    });
+}
+
+function editTask(e) {
+   
+    textInput.value = taskList[e.id].title;
+    dateInput.value = taskList[e.id].date; 
+    textArea.value = taskList[e.id].description
+    
+    taskList.splice(taskList[e],1)
+
+    addTask.addEventListener("onClick", function(e){
+ 
+        taskList[e.id].date = dateInput.value;
+        taskList[e.id].description = textArea.value
+       // console.log(taskList[e.id])
         localStorage.setItem("taskList", JSON.stringify(taskList));
-    }
-    else{
-    console.log("denied");
-    }
+
+        // console.log(taskList[e.id])
+    })
+
+  //console.log(taskList[e.id])
 }
 
-let editTask = () => {
-    let selectedTask = e.parentElement.parentElement;
 
-    textInput.value = selectedTask.children[0].innerHTML;
-    dateInput.value = selectedTask.children[1].innerHTML;
-    textarea.value = selectedTask.children[2].innerHTML;
-}
-
-let clearForm = () => {
+function clearForm () {
     textInput.value = "";
     dateInput.value = "";
     textArea.value = "";
 }
 
+/*
+use an id for every card 
+use that id and do this in css:
+#id{
+    display:none;
+}
+Then change the btn.style.type to inline by using none as a condition
+*/
+
+
+//overflow
+// desciption >30 : overflow hidden
+//button more
+//button description.style.overflow =
+// no button
