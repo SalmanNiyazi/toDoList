@@ -72,3 +72,11 @@ body {
 #tasks div .options i {
   cursor: pointer;
 }
+
+.moreText{
+  display:inline;
+}
+
+.show-more{
+  display: none;
+}

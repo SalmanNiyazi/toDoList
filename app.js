@@ -73,19 +73,21 @@ function createNewTask () {
 
     taskList.length > 0 && taskList.map((x, y) => {
        
-    const description = x.description.length > 40 ?`${x.description.slice(0,40)}...<button id="moreText" onclick="moreText()">more</button>`: x.description;
+    const description = x.description.length > 40 ?`${x.description.slice(0,40)}...<span id="moreText">more</span>`: x.description;
    
     return  tasks.innerHTML +=   `
     <div class="task-container" id=${y}>
     <span class="fw-bold">${x.title}</span>
     <span class="small text-secondary">${x.date}</span>
-    <p>${description}</p>
+    <p class="descText">${description}
+    <span class="show-more"></span>
+    </p>
    
     <span class="options">
       <i onClick= "editTask(this)"  id=${y} data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
       <i onClick ="deleteTask(${y}); createNewTask()" id=${y} class="fas fa-trash-alt"></i>
     </span>
-  </div>
+    </div>
 `
 
     });
@@ -94,13 +96,8 @@ function createNewTask () {
 };
 
 
-createNewTask()
+createNewTask();
 
-function moreText(e){
-    console.log(taskList.innerHTML);
-    return tasks.innerHTML += `<p>${textArea.value}</p>`
-  
-}
 
 //Delete a task
 let deleteTask = (y) => {
@@ -153,6 +150,23 @@ function clearForm () {
     dateInput.value = "";
     textArea.value = "";
 }
+
+
+const moreText = document.getElementById("moreText")
+moreText.addEventListener("click", e => {
+    const current = e.target;
+
+    const isReadMore = current.className.includes("moreText")
+
+    if(!isReadMore) return;
+
+   const currentText = e.target.parentNode.querySelector("show-more")
+
+    currentText.classList.toggle('read-more')
+
+    current.textContent = current.textContent.includes('read more')? "read less": "read more";
+})
+
 
 /*
 use an id for every card 
