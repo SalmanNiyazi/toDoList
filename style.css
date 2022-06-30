@@ -1,0 +1,126 @@
+body {
+  font-family: sans-serif;
+  margin: 0 50px;
+  background-color: #dedddf;
+  display: flex;
+  justify-content: center;
+  align-items: center;    
+  overflow: scroll;
+}
+.app {
+  background-color: #fff;
+  width: 300px;
+  margin: 50px 0px;
+  /* min-height: 500px;
+  max-height: 700px; */
+height: 500px;
+  border: 5px solid #ac8bc7;
+  border-radius: 8px;
+  padding: 15px;
+}
+#msg1{
+  color: rgb(245, 28, 28);
+}
+#msg2{
+  color: rgb(247, 30, 30);
+}
+#msg3{
+  color: rgb(238, 28, 28);
+}
+
+
+#addNew {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(194, 136, 241, 0.35);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.fa-plus {
+  background-color: #a463d0;
+  padding: 3px;
+  border-radius: 3px;
+}
+.task-container{
+  width: 100%; 
+  height: 100%;
+ 
+}
+.task-container p {
+  width: 100%;
+  height: 100%;
+  /* overflow-y: auto; */
+  overflow-x: auto;
+  text-align:justify;
+}
+
+.form-control-head::after{
+  content: "*";
+  color: red;
+}
+
+#tasks {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+#tasks div {
+  display: flex;
+  /* overflow-y: scroll; */
+  height: 200px;
+  border: 3px solid #a17bd3;
+  background-color: #e9deee;
+  border-radius: 8px;
+  padding: 7px;
+  display: grid;
+  gap: 4px;
+}
+
+#tasks div .options {
+  justify-self: center;
+  display: flex;
+  gap: 20px;
+}
+
+#tasks div .options i {
+  cursor: pointer;
+}
+
+
+#form-control-head{
+  display: none;
+}
+
+.moreBtn{
+color: #0e0a11;
+background-color: #a463d0;
+border-radius: 15px;
+}
+
+.clearBtn{
+  border-radius: 15px;
+  border-color: #e2eede;
+  background-color: #a463d0;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+}
+.clearAll{
+  position: relative;
+  bottom: 10px;
+}
+
+#tasks{
+  height: 300px;
+  overflow-y:scroll ;
+  overflow-x:auto ;
+}
+.hidden{
+  display: none;
+  opacity: 0;
+}
